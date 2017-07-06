@@ -12,6 +12,10 @@
     default_project: "{{ openstack_networking_service_controller_neutron_user_info['default_project']|default(omit) }}"
     state: "{{ openstack_networking_service_controller_neutron_user_info['state'] }}"
   no_log: true
+  when: >
+        not openstack_networking_service_controller_ha or
+        (openstack_networking_service_controller_ha and
+          inventory_hostname == openstack_networking_service_controller_ha_master)
 
 # Create Neutron user role
 - name: users | Creating Neutron User Role
@@ -22,3 +26,7 @@
     project: "{{ openstack_networking_service_controller_neutron_user_info['project'] }}"
     state: "{{ openstack_networking_service_controller_neutron_user_info['state'] }}"
   no_log: true
+  when: >
+        not openstack_networking_service_controller_ha or
+        (openstack_networking_service_controller_ha and
+          inventory_hostname == openstack_networking_service_controller_ha_master)

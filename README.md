@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [ansible-openstack-networking-service-controller](#ansible-openstack-networking-service-controller)
   - [Requirements](#requirements)
@@ -35,6 +35,12 @@ openstack_networking_service_controller_db_info:
   pass: 'neutron'
   host: 'localhost'
 
+# HA info
+## Define as true if using HA
+openstack_networking_service_controller_ha: false
+## Define host which should be identified as HA master
+openstack_networking_service_controller_ha_master: 'controller01'
+
 # keystone_authtoken
 openstack_networking_service_controller_keystone_authtoken:
   auth_type: 'password'
@@ -52,6 +58,10 @@ openstack_networking_service_controller_keystone_authtoken:
 openstack_networking_service_controller_keystone_service_endpoint_url: 'http://{{ inventory_hostname }}'
 
 openstack_networking_service_controller_keystone_service_endpoint_region: 'RegionOne'
+
+# Management IP Info
+openstack_networking_service_controller_management_interface: 'enp0s8'
+openstack_networking_service_controller_management_ip: "{{ hostvars[inventory_hostname]['ansible_'+openstack_compute_service_compute_management_interface]['ipv4']['address'] }}"
 
 # Define memcached servers
 openstack_networking_service_controller_memcached_servers:
@@ -107,8 +117,9 @@ openstack_networking_service_controller_nova_user_pass: []
 # Provider network info
 openstack_networking_service_controller_provider_interface: 'enp0s9'
 
-# RabbitMQ connection info
-openstack_networking_service_controller_rabbit_host: 'localhost'
+# RabbitMQ Connection Info
+openstack_networking_service_controller_rabbit_hosts:
+  - 127.0.0.1
 openstack_networking_service_controller_rabbit_pass: 'openstack'
 openstack_networking_service_controller_rabbit_user: 'openstack'
 ```

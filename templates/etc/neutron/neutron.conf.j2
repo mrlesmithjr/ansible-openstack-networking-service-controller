@@ -6,7 +6,10 @@ core_plugin = ml2
 notify_nova_on_port_data_changes = true
 notify_nova_on_port_status_changes = true
 service_plugins =
-transport_url = rabbit://{{ openstack_networking_service_controller_rabbit_user }}:{{ openstack_networking_service_controller_rabbit_pass }}@{{ openstack_networking_service_controller_rabbit_host }}
+{% set _rabbit_user = openstack_networking_service_controller_rabbit_user %}
+{% set _rabbit_pass = openstack_networking_service_controller_rabbit_pass %}
+transport_url = rabbit://{% for host in openstack_networking_service_controller_rabbit_hosts %}{{ _rabbit_user }}:{{ _rabbit_pass }}@{{ host }}{% if not loop.last %},{% endif %}{% endfor %}
+
 
 [agent]
 root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
