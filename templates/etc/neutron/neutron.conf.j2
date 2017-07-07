@@ -2,6 +2,7 @@
 
 [DEFAULT]
 auth_strategy = keystone
+bind_host = {{ openstack_networking_service_controller_management_ip }}
 core_plugin = ml2
 notify_nova_on_port_data_changes = true
 notify_nova_on_port_status_changes = true
